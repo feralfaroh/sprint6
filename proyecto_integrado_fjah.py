@@ -54,3 +54,5 @@ games_per_year = datafer.groupby('year_of_release')['name'].count()
 games_per_year.plot(kind='bar')
 plt.show()
 
+##prueba
+
