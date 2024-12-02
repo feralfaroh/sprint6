@@ -8,6 +8,7 @@ print(datafer.head(10))
 #Limpiar datos
 print(datafer.info())
 print(datafer.value_counts())
+
 #Corregir nombre de columnas
 new_names = []
 for col in datafer.columns:
@@ -28,7 +29,13 @@ datafer.dropna(subset=['name'], inplace=True)
 #Tenemos datos nulos, y la columna es un float cuando debería ser un int al tratarse de años
 datafer['year_of_release'] = pd.to_numeric(datafer['year_of_release'], errors='coerce').astype('Int64')
 
+#Corregir la columna user score, pasaremos los datos tbd a np.nan y cambiaremos la columna a float
+print(datafer['user_score'].unique())
+datafer['user_score'].replace('tbd',np.nan,inplace=True)
+datafer['user_score'].replace('nan',np.nan,inplace=True)
+datafer['user_score'] = pd.to_numeric(datafer['user_score'],errors='coerce')
 
+print(datafer.info())
 
 #verificamos valores de genre
 print(datafer['genre'].value_counts())
