@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 
+
 datafer = pd.read_csv('games.csv')
 print(datafer.head(10))
 
@@ -35,44 +36,31 @@ datafer['user_score'].replace('tbd',np.nan,inplace=True)
 datafer['user_score'].replace('nan',np.nan,inplace=True)
 datafer['user_score'] = pd.to_numeric(datafer['user_score'],errors='coerce')
 
+#Multiplicaremos los valores de user score x10 para que esten a la par de critics
+datafer['user_score'] = datafer['user_score'] * 10
+print(datafer['user_score'])
+
 print(datafer.info())
 
-#verificamos valores de genre
-print(datafer['genre'].value_counts())
-datafer['genre'] = datafer['genre'].fillna('Other')
+#Verificamos la informacion de rating
+print(datafer['rating'].unique())
 
-
-
-#Verifocar valores de critic score
-print(datafer['critic_score'].unique())
-#transformar datos
-datafer['critic_score'] = datafer['critic_score'].replace('nan', np.nan)
-datafer['critic_score'] = datafer['critic_score'].astype(float)
-
-#verificar valores user score
-print(datafer['user_score'].unique())
-#transformar datos
-datafer['user_score'] = datafer['user_score'].replace('nan', np.nan)
-
-
-#Convertimos los valores a float incluyendo tbd debido a que no sabremos que calificacion pondriz el usuario
-datafer['user_score'] = pd.to_numeric(datafer['user_score'], errors='coerce')
-calif = datafer.groupby('name')['user_score'].unique()
-calif
-
+#Agregamos una columna que tenga las ventas totales
 #total de ventas
-
 datafer['total_sales'] = datafer['na_sales'] + datafer['eu_sales'] + datafer['jp_sales'] + datafer['other_sales']
 
-#Juegos por anio
+#Analisis de Datos
+#¿Cuántos juegos fueron lanzados cada año?
+#Crearemos una grafica de barra para mostrar el paso del tiempo vs los juegos lanzados
 games_per_year = datafer.groupby('year_of_release')['name'].count()
-games_per_year.plot(kind='bar',title='Juegos Lanzados')
+games_per_year.plot(kind='bar',title='Juegos Lanzados', xlabel='Años',ylabel='Cantidad de Juegos Lanzados')
 plt.show()
 
-#Ingresos de Juegos por plataforma anual
-games_per_platform = datafer.groupby(['platform','year_of_release'])['total_sales'].sum()
-games_per_platform
-
-
-##prueba
-
+#¿Qué plataformas tienen mayores ventas totales?
+#Para esto solo usaremos datos desde el 2010 para ver la evolución de las plataformas
+data_since_2010 = datafer[datafer['year_of_release'] >= 2010]
+games_per_platform = data_since_2010.groupby(['platform','year_of_release'])['total_sales'].sum().reset_index()
+games_per_platform = games_per_platform.pivot(index='year_of_release',columns='platform',values='total_sales')
+games_per_platform.plot(kind='bar')
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.show()
