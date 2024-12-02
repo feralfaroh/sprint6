@@ -51,8 +51,13 @@ datafer['total_sales'] = datafer['na_sales'] + datafer['eu_sales'] + datafer['jp
 
 #Juegos por anio
 games_per_year = datafer.groupby('year_of_release')['name'].count()
-games_per_year.plot(kind='bar')
+games_per_year.plot(kind='bar',title='Juegos Lanzados')
 plt.show()
+
+#Ingresos de Juegos por plataforma anual
+games_per_platform = datafer.groupby(['platform','year_of_release'])['total_sales'].sum()
+games_per_platform
+
 
 ##prueba
 
