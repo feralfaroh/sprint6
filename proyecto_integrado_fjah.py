@@ -64,3 +64,14 @@ games_per_platform = games_per_platform.pivot(index='year_of_release',columns='p
 games_per_platform.plot(kind='bar')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.show()
+
+#El PS4 es una plataforma que ha tenido un creciemiento por encima de otras a traves de los años, despues de esta le siguen Xbox One y Nintendo 3Ds. Es importante resaltar que el PS3 fue la plataforma con más ingresos 2 años antes y el año que salio la PS4
+
+#¿Cómo afectan las reseñas de usuarios/profesionales las ventas?
+#Crearemos una columna que nos saque una  reseña global sumando user y critics
+
+datafer['global_score'] = (datafer['user_score'].fillna(0) + datafer['critic_score'].fillna(0))/2
+
+user_score_sales = datafer.groupby('user_score')['total_sales'].sum().reset_index()
+user_score_sales.plot(kind='scatter')
+plt.show()
