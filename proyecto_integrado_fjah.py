@@ -14,18 +14,26 @@ for col in datafer.columns:
     new_names.append(col.lower())
 datafer.columns = new_names
 
+#Verificar duplicados
 datafer.duplicated().sum()
+duplicados = datafer[datafer.duplicated()]
+print(duplicados)
 
-#Corregir tipo de datos en las columnas
-#corregiremos la columna de year debido a que es el release year
-datafer['year_of_release'] = datafer['year_of_release'].fillna(0).astype(int)
+#Nombres - Columna
+print(datafer[datafer['name'].isna()])
+#Eliminaremos estos datos debido a que tienen muchos datos nulos en toda la fila
+datafer.dropna(subset=['name'], inplace=True)
+
+#Year of release
+#Tenemos datos nulos, y la columna es un float cuando debería ser un int al tratarse de años
+datafer['year_of_release'] = pd.to_numeric(datafer['year_of_release'], errors='coerce').astype('Int64')
+
+
 
 #verificamos valores de genre
 print(datafer['genre'].value_counts())
 datafer['genre'] = datafer['genre'].fillna('Other')
 
-#rellenamos valores Nan de 'name'
-datafer['name'] = datafer['name'].fillna('Name Unavailable')
 
 
 #Verifocar valores de critic score
