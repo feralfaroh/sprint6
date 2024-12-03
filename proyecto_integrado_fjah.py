@@ -73,5 +73,32 @@ plt.show()
 datafer['global_score'] = (datafer['user_score'].fillna(0) + datafer['critic_score'].fillna(0))/2
 
 user_score_sales = datafer.groupby('user_score')['total_sales'].sum().reset_index()
-user_score_sales.plot(kind='scatter')
+user_score_sales.plot(kind='scatter', x='user_score', y='total_sales',xlabel='User Score',ylabel='Ventas (Millones)',title='Ventas vs Score')
 plt.show()
+
+#Los juegos que tienen un promedio de usuario de 70 a 90 son los que tienen mayores ventas
+
+critic_score_sales = datafer.groupby('critic_score')['total_sales'].sum().reset_index()
+critic_score_sales.plot(kind='scatter', x='critic_score', y='total_sales',xlabel='Critic Score',ylabel='Ventas (Millones)',title='Ventas vs Score')
+plt.show()
+
+#Los juegos con las calificaciones de los criticos tienen un comportamiento similar al de user score
+
+#Ahora queremos saber cuales son los generos mas rentables, para esto usaremos datos apartir del 2010 para que los datos sean más precisos a la hora de tomar una decision
+#¿Qué géneros son más rentables?
+
+sales_per_genre = data_since_2010.groupby('genre')['total_sales'].sum().reset_index()
+sales_per_genre
+sales_per_genre.plot(kind='bar',x='genre',y='total_sales')
+plt.suptitle('Ventas por genero de juego', fontsize=15)
+plt.title('Datos de 2010 a 2016', fontsize=10)
+plt.xticks(rotation= 35)
+plt.show()
+
+#Evolucion temporal
+sales_per_genre_yearly = data_since_2010.groupby(['genre','year_of_release'])['total_sales'].sum().reset_index()
+sales_per_genre_yearly = sales_per_genre_yearly.pivot(index='year_of_release',columns='genre',values='total_sales')
+sales_per_genre_yearly.plot()
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.show()
+
