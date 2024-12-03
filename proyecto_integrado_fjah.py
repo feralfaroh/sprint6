@@ -144,8 +144,8 @@ platform_score_gp = datafer.groupby('platform')['user_score'].sum().reset_index(
 platform_score_gp['platform'].unique()
 xboxone_score_gp = platform_score_gp[platform_score_gp['platform'] == 'XOne']
 pc_score_gp = platform_score_gp[platform_score_gp['platform'] == 'PC']
-xbox_score_mean = xboxone_score_gp['user_score'].mean()
-pc_score_mean = pc_score_gp['user_score'].mean()
+xbox_score_mean = xboxone_score_gp['user_score']
+pc_score_mean = pc_score_gp['user_score']
 
 print(len(xbox_score_mean), len(pc_score_mean))
 xbox_score_mean
