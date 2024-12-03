@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy import stats as st
 
 
 datafer = pd.read_csv('games.csv')
@@ -89,7 +90,7 @@ plt.show()
 
 sales_per_genre = data_since_2010.groupby('genre')['total_sales'].sum().reset_index()
 sales_per_genre
-sales_per_genre.plot(kind='bar',x='genre',y='total_sales')
+sales_per_genre.plot(kind='bar',x='genre',y='total_sales',ylabel='Ventas (Millones)')
 plt.suptitle('Ventas por genero de juego', fontsize=15)
 plt.title('Datos de 2010 a 2016', fontsize=10)
 plt.xticks(rotation= 35)
@@ -139,8 +140,19 @@ print(f"Los generos que tienen más ventas en Japon son: {na_profile_genre.head(
 #Prueba hipótesis
 #Prueba las siguientes:
 #Las calificaciones promedio de usuarios para Xbox One y PC son iguales.
+platform_score_gp = datafer.groupby('platform')['user_score'].sum().reset_index()
+platform_score_gp['platform'].unique()
+xboxone_score_gp = platform_score_gp[platform_score_gp['platform'] == 'XOne']
+pc_score_gp = platform_score_gp[platform_score_gp['platform'] == 'PC']
+xbox_score_mean = xboxone_score_gp['user_score'].mean()
+pc_score_mean = pc_score_gp['user_score'].mean()
+
+print(len(xbox_score_mean), len(pc_score_mean))
+xbox_score_mean
+
+dif = st.ttest_ind(xbox_score_mean,pc_score_mean,equal_var=False)
 
 
 #Las calificaciones promedio para los géneros de Acción y Deportes son diferentes.
-
+#c
 
