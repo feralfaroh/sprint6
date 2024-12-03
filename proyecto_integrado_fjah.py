@@ -136,5 +136,11 @@ jp_profile_genre = datafer.groupby('genre')['jp_sales'].sum().reset_index()
 jp_profile_genre = jp_profile_genre.sort_values(by='jp_sales', ascending=False)
 print(f"Los generos que tienen más ventas en Japon son: {na_profile_genre.head(5)}")
 
+#Prueba hipótesis
+#Prueba las siguientes:
+#Las calificaciones promedio de usuarios para Xbox One y PC son iguales.
+
+
+#Las calificaciones promedio para los géneros de Acción y Deportes son diferentes.
 
 
