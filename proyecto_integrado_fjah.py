@@ -102,3 +102,39 @@ sales_per_genre_yearly.plot()
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.show()
 
+#Creacion de perfiles 
+#Identifica las cinco plataformas y géneros principales.
+#Analiza cómo afecta la clasificación ESRB a las ventas.
+
+#Perfil de norteamerica (NA)
+#plataforma
+na_profile_platform = datafer.groupby('platform')['na_sales'].sum().reset_index()
+na_profile_platform = na_profile_platform.sort_values(by='na_sales', ascending=False)
+print(f"Los plataformas que tienen más ventas en Norteamerica son: {na_profile_platform.head(5)}")
+#generos
+na_profile_genre = datafer.groupby('genre')['na_sales'].sum().reset_index()
+na_profile_genre = na_profile_genre.sort_values(by='na_sales', ascending=False)
+print(f"Los generos que tienen más ventas en Norteamerica son: {na_profile_genre.head(5)}")
+
+#Perfil de Union Europea (UE)
+#plataforma
+na_profile_platform = datafer.groupby('platform')['eu_sales'].sum().reset_index()
+na_profile_platform = na_profile_platform.sort_values(by='eu_sales', ascending=False)
+print(f"Los plataformas que tienen más ventas en Union Europea son: {na_profile_platform.head(5)}")
+#generos
+na_profile_genre = datafer.groupby('genre')['eu_sales'].sum().reset_index()
+na_profile_genre = na_profile_genre.sort_values(by='eu_sales', ascending=False)
+print(f"Los generos que tienen más ventas en Union Europea son: {na_profile_genre.head(5)}")
+
+#Perfil de Japon (jp)
+#plataforma
+jp_profile_platform = datafer.groupby('platform')['jp_sales'].sum().reset_index()
+jp_profile_platform = jp_profile_platform.sort_values(by='jp_sales', ascending=False)
+print(f"Los plataformas que tienen más ventas en Japon son: {na_profile_platform.head(5)}")
+#generos
+jp_profile_genre = datafer.groupby('genre')['jp_sales'].sum().reset_index()
+jp_profile_genre = jp_profile_genre.sort_values(by='jp_sales', ascending=False)
+print(f"Los generos que tienen más ventas en Japon son: {na_profile_genre.head(5)}")
+
+
+
