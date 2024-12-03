@@ -140,19 +140,50 @@ print(f"Los generos que tienen más ventas en Japon son: {na_profile_genre.head(
 #Prueba hipótesis
 #Prueba las siguientes:
 #Las calificaciones promedio de usuarios para Xbox One y PC son iguales.
-platform_score_gp = datafer.groupby('platform')['user_score'].sum().reset_index()
-platform_score_gp['platform'].unique()
-xboxone_score_gp = platform_score_gp[platform_score_gp['platform'] == 'XOne']
-pc_score_gp = platform_score_gp[platform_score_gp['platform'] == 'PC']
-xbox_score_mean = xboxone_score_gp['user_score']
-pc_score_mean = pc_score_gp['user_score']
+platform_score = datafer[datafer['platform'].isin(['XOne', 'PC']) & datafer['user_score'].notna()]
+xone_score = platform_score[platform_score['platform'] == 'XOne']
+pc_score = platform_score[platform_score['platform'] == 'PC']
 
-print(len(xbox_score_mean), len(pc_score_mean))
-xbox_score_mean
+user_xone_score = xone_score['user_score']
+user_pc_score = pc_score['user_score']
 
-dif = st.ttest_ind(xbox_score_mean,pc_score_mean,equal_var=False)
+#Hipotesis Nula Las calificaciones promedio de usuarios para Xbox One y PC son iguales.
+#Hipotesis Alternativa Las calificaciones promedio de usuarios para Xbox One y PC son diferentes.
+
+alpha = .05
+
+results = st.ttest_ind(user_xone_score, user_pc_score, equal_var=False)
 
 
+print('valor p:', results.pvalue)
+
+if results.pvalue <= alpha:
+    print("Rechazamos la hipótesis nula: las medias son significativamente diferentes.")
+else:
+    print("No podemos rechazar la hipótesis nula: no hay suficiente evidencia para afirmar que las medias son diferentes.")
+
+
+#Prueba hipótesis
 #Las calificaciones promedio para los géneros de Acción y Deportes son diferentes.
-#c
+genre_score = datafer[datafer['genre'].isin(['Action', 'Sport']) & datafer['user_score'].notna()]
+action_score = genre_score[genre_score['genre'] == 'Action']
+sport_score = genre_score[genre_score['genre'] == 'Sport']
+
+user_action_score = action_score['user_score']
+user_sport_score = sport_score['user_score']
+
+#Hipotesis Nula Las calificaciones promedio para los géneros de Acción y Deportes son iguales.
+#Hipotesis Alternativa Las calificaciones promedio de usuarios para Acción y Deportes son diferentes.
+
+alpha = .05
+
+results = st.ttest_ind(user_action_score, user_sport_score, equal_var=False)
+
+
+print('valor p:', results.pvalue)
+
+if results.pvalue <= alpha:
+    print("Rechazamos la hipótesis nula: las medias son significativamente diferentes.")
+else:
+    print("No podemos rechazar la hipótesis nula: no hay suficiente evidencia para afirmar que las medias son diferentes.")
 
