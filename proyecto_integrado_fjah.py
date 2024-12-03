@@ -165,12 +165,15 @@ else:
 
 #Prueba hipótesis
 #Las calificaciones promedio para los géneros de Acción y Deportes son diferentes.
-genre_score = datafer[datafer['genre'].isin(['Action', 'Sport']) & datafer['user_score'].notna()]
+genre_score = datafer[datafer['genre'].isin(['Action', 'Sports']) & datafer['user_score'].notna()]
 action_score = genre_score[genre_score['genre'] == 'Action']
-sport_score = genre_score[genre_score['genre'] == 'Sport']
+sport_score = genre_score[genre_score['genre'] == 'Sports']
 
 user_action_score = action_score['user_score']
 user_sport_score = sport_score['user_score']
+
+user_action_score
+user_sport_score
 
 #Hipotesis Nula Las calificaciones promedio para los géneros de Acción y Deportes son iguales.
 #Hipotesis Alternativa Las calificaciones promedio de usuarios para Acción y Deportes son diferentes.
